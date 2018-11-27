@@ -1,0 +1,50 @@
+<gd-wait *ngIf="isLoading"></gd-wait>
+
+<div class="gd-container gd-container-xxs gd-spacing-padding-even-large">
+  <div class="gd-detail-pane">
+    <h1>
+      Admin log in
+    </h1>
+
+    <form
+      class="gd-form"
+      aria-label="Log in to GiftDibs"
+      [formGroup]="loginForm"
+      (ngSubmit)="submit()"
+      novalidate
+    >
+      <gd-form-field [errors]="errors">
+        <input
+          type="email"
+          class="gd-form-control"
+          id="gd-login-email-address"
+          formControlName="emailAddress"
+          placeholder="Email address"
+        />
+      </gd-form-field>
+
+      <gd-form-field [errors]="errors">
+        <gd-password-viewer
+          [disabled]="loginForm.disabled"
+          [inputElement]="passwordInput">
+          <input
+            autocorrect="off"
+            autocapitalize="none"
+            type="password"
+            class="gd-form-control"
+            formControlName="password"
+            placeholder="Password"
+            #passwordInput
+          />
+        </gd-password-viewer>
+      </gd-form-field>
+
+      <button
+        class="gd-button gd-button-primary"
+        type="submit"
+        [disabled]="loginForm.disabled">
+        Log in
+      </button>
+    </form>
+  </div>
+</div>
