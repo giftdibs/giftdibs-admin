@@ -46,4 +46,27 @@ export class UserService {
         share()
       );
   }
+
+  public requestResetPasswordToken(emailAddress: string): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/auth/forgotten`, { emailAddress });
+  }
+
+  public addToMailingList(user: User): Observable<any> {
+    const formData = {
+      emailAddress: user.emailAddress,
+      firstName: user.firstName,
+      id: user.id,
+      lastName: user.lastName
+    };
+
+    return this.http.post(`${environment.apiUrl}/admin/mailing-list-subscription`, formData);
+  }
+
+  public removeFromMailingList(emailAddress: string): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/admin/mailing-list-subscription/${emailAddress}`);
+  }
+
+  public updateMailingListSubscription(emailAddress: string, data: { subscribed: boolean }): Observable<any> {
+    return this.http.patch(`${environment.apiUrl}/admin/mailing-list-subscription/${emailAddress}`, data);
+  }
 }

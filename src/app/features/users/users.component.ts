@@ -10,7 +10,8 @@ import {
   ConfirmAnswerType,
   ConfirmService,
   ConfirmAnswer,
-  AlertService
+  AlertService,
+  DropdownMenuItem
 } from '@giftdibs/ux';
 
 @Component({
@@ -40,7 +41,7 @@ export class UsersComponent implements OnInit {
 
   public confirmDelete(user: User): void {
     this.confirmService.confirm({
-      message: 'Are you sure?'
+      message: `Are you sure you wish to delete ${user.firstName} ${user.lastName}?`
     }, (answer: ConfirmAnswer) => {
       if (answer.type === ConfirmAnswerType.Okay) {
         this.userService.remove(user.id).subscribe(
@@ -53,5 +54,105 @@ export class UsersComponent implements OnInit {
         );
       }
     });
+  }
+
+  public getMenuItems(user: any): DropdownMenuItem[] {
+    const menuItems: DropdownMenuItem[] = [];
+
+    if (user.emailExistsOnMailingList) {
+      menuItems.push({
+        label: 'Remove from mailing list',
+        action: () => {
+          this.userService.removeFromMailingList(user.emailAddress).subscribe(
+            (result: any) => {
+              this.alertService.success(result.message);
+            },
+            (err: any) => {
+              this.alertService.error(err.error.message);
+            }
+          );
+        }
+      });
+
+      if (user.isEmailSubscribedToMailingList) {
+        menuItems.push({
+          label: 'Unsubscribe from mailing list',
+          action: () => {
+            this.userService.updateMailingListSubscription(user.emailAddress, {
+              subscribed: false
+            }).subscribe(
+              (result: any) => {
+                this.alertService.success(result.message);
+              },
+              (err: any) => {
+                this.alertService.error(err.error.message);
+              }
+            );
+          }
+        });
+      } else {
+        menuItems.push({
+          label: 'Resubscribe to mailing list',
+          action: () => {
+            this.userService.updateMailingListSubscription(user.emailAddress, {
+              subscribed: true
+            }).subscribe(
+              (result: any) => {
+                this.alertService.success(result.message);
+              },
+              (err: any) => {
+                this.alertService.error(err.error.message);
+              }
+            );
+          }
+        });
+      }
+    } else {
+      menuItems.push({
+        label: 'Add to mailing list',
+        action: () => {
+          this.userService.addToMailingList(user).subscribe(
+            (result: any) => {
+              this.alertService.success(result.message);
+            },
+            (err: any) => {
+              this.alertService.error(err.error.message);
+            }
+          );
+        }
+      });
+    }
+
+    if (!user.emailAddressVerified) {
+      menuItems.push({
+        label: 'Verify email address',
+        action: () => {}
+      });
+    }
+
+    menuItems.push(
+      {
+        label: 'Reset password',
+        action: () => {
+          this.userService.requestResetPasswordToken(user.emailAddress).subscribe(
+            (result: any) => {
+              this.alertService.success(result.message);
+            },
+            (err: any) => {
+              this.alertService.error(err.error.message);
+            }
+          );
+        },
+        addSeparatorAfter: true
+      },
+      {
+        label: 'Delete',
+        action: () => {
+          this.confirmDelete(user);
+        }
+      }
+    );
+
+    return menuItems;
   }
 }

@@ -9,7 +9,7 @@
       <th>Wish lists</th>
       <th>Last logged in</th>
       <th>Email</th>
-      <th style="text-align:right;">Mailing list</th>
+      <th>Subscribed?</th>
       <th></th>
     </tr>
   </thead>
@@ -29,56 +29,21 @@
         <gd-icon *ngIf="!user.emailAddressVerified" icon="minus" iconStyle="danger" title="Unverified"></gd-icon>
         {{ user.emailAddress }}
       </td>
-      <td style="text-align: right;width:1%;">
-        <div class="gd-button-group">
-          <button *ngIf="user.emailExistsOnMailingList && user.isEmailSubscribedToMailingList"
-            class="gd-button gd-button-default"
-            title="Unsubscribe user from mailing list"
-            type="button"
-          >
-            <gd-icon icon="bell-slash"></gd-icon>
-          </button>
-          <button *ngIf="user.emailExistsOnMailingList && !user.isEmailSubscribedToMailingList"
-            class="gd-button gd-button-default"
-            title="Resubscribe user to mailing list"
-            type="button"
-          >
-            <gd-icon icon="bell"></gd-icon>
-          </button>
-          <button *ngIf="!user.emailExistsOnMailingList"
-            class="gd-button gd-button-default"
-            title="Add user to mailing list"
-            type="button"
-          >
-            <gd-icon icon="plus"></gd-icon>
-          </button>
-        </div>
+      <td>
+        <span *ngIf="user.emailExistsOnMailingList && user.isEmailSubscribedToMailingList">Yes</span>
+        <span *ngIf="user.emailExistsOnMailingList && !user.isEmailSubscribedToMailingList">No</span>
+        <span *ngIf="!user.emailExistsOnMailingList">--</span>
       </td>
       <td style="text-align: right;width:1%;">
-        <div class="gd-button-group">
-          <button *ngIf="!user.emailAddressVerified"
-            class="gd-button gd-button-default"
-            title="Verify account"
-            type="button"
-          >
-            <gd-icon icon="check"></gd-icon>
-          </button>
-          <button
-            class="gd-button gd-button-default"
-            title="Reset password"
-            type="button"
-          >
-            <gd-icon icon="asterisk"></gd-icon>
-          </button>
-          <button
-            class="gd-button gd-button-danger"
-            title="Delete user"
-            type="button"
-            (click)="confirmDelete(user)"
-          >
-            <gd-icon icon="trash"></gd-icon>
-          </button>
-        </div>
+        <button
+          class="gd-button gd-button-default"
+          type="button"
+          gdDropdownMenuTrigger
+          menuHorizontalAlignment="right"
+          [menuItems]="getMenuItems(user)"
+        >
+          <gd-icon icon="ellipsis-v"></gd-icon>
+        </button>
       </td>
     </tr>
   </tbody>

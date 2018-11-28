@@ -10,7 +10,12 @@ import {
   RouterModule
 } from '@angular/router';
 
-import { ConfirmModule, AlertModule, IconModule } from '@giftdibs/ux';
+import {
+  AlertModule,
+  ConfirmModule,
+  DropdownMenuModule,
+  IconModule
+} from '@giftdibs/ux';
 
 import {
   UsersComponent
@@ -27,6 +32,7 @@ import { UserService } from './user.service';
     AlertModule,
     CommonModule,
     ConfirmModule,
+    DropdownMenuModule,
     IconModule,
     RouterModule,
     UsersRoutingModule
