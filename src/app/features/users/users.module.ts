@@ -7,10 +7,6 @@ import {
 } from '@angular/common';
 
 import {
-  RouterModule
-} from '@angular/router';
-
-import {
   AlertModule,
   ConfirmModule,
   DropdownMenuModule,
@@ -34,7 +30,6 @@ import { UserService } from './user.service';
     ConfirmModule,
     DropdownMenuModule,
     IconModule,
-    RouterModule,
     UsersRoutingModule
   ],
   providers: [

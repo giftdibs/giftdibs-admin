@@ -22,12 +22,14 @@ import { NavbarModule } from './shared/navbar/navbar.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AlertModule } from '@giftdibs/ux';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+    AlertModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,

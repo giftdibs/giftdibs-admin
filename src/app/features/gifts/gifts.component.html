@@ -1,0 +1,31 @@
+<h1>
+  Gifts
+</h1>
+
+<table class="gd-table">
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Name</th>
+      <th>Updated</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let gift of gifts">
+      <td class="app-gifts-thumbnail">
+        <gd-thumbnail
+          size="sm"
+          [imageSource]="gift.imageUrl"
+        >
+        </gd-thumbnail>
+      </td>
+      <td class="app-gifts-name">
+        <a href="https://giftdibs.com/gifts/{{ gift.id }}">{{ gift.name }}</a><br>
+        <small><a href="https://giftdibs.com/users/{{ gift.user.id }}">{{ gift.user.firstName }} {{ gift.user.lastName }}</a></small>
+      </td>
+      <td>
+        {{ gift.dateUpdated | date }}
+      </td>
+    </tr>
+  </tbody>
+</table>
